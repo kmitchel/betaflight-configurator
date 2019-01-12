@@ -315,8 +315,11 @@ TABS.pid_tuning.initialize = function (callback) {
         if (semver.gte(CONFIG.apiVersion, "1.41.0")) {
             $('select[id="throttleLimitType"]').val(RC_tuning.throttleLimitType);
             $('.throttle_limit input[name="throttleLimitPercent"]').val(RC_tuning.throttleLimitPercent);
+            $('.pid_filter input[name="gyroDynLowpassMin"]').val(FILTER_CONFIG.gyro_dyn_lpf_min);
+            $('.pid_filter input[name="gyroDynLowpassMax"]').val(FILTER_CONFIG.gyro_dyn_lpf_max);
         } else {
             $('.throttle_limit').hide();
+            $('.dynLowpass').hide();
         }
 
         $('input[id="gyroNotch1Enabled"]').change(function() {
@@ -357,6 +360,16 @@ TABS.pid_tuning.initialize = function (callback) {
             $('.pid_filter input[name="gyroLowpassFrequency"]').val(checked ? cutoff : 0).attr('disabled', !checked);
             $('.pid_filter select[name="gyroLowpassType"]').val(checked ? type : 0).attr('disabled', !checked);
         });
+
+        $('input[id="gyroDynLowpassEnabled"]').change(function() {
+            var checked = $(this).is(':checked');
+            var hzMin = FILTER_CONFIG.gyro_dyn_lpf_min > 0 ? FILTER_CONFIG.gyro_dyn_lpf_min : DEFAULT.gyro_dyn_lpf_min;
+            var hzMax = FILTER_CONFIG.gyro_dyn_lpf_max > 0 ? FILTER_CONFIG.gyro_dyn_lpf_max : DEFAULT.gyro_dyn_lpf_max;
+
+            $('.pid_filter input[name="gyroDynLowpassMin"]').val(checked ? hzMin : 0).attr('disabled', !checked);
+            $('.pid_filter input[name="gyroDynLowpassMax"]').val(checked ? hzMax : 0).attr('disabled', !checked);
+        });
+
 
         $('input[id="gyroLowpass2Enabled"]').change(function() {
             var checked = $(this).is(':checked');
@@ -420,6 +433,7 @@ TABS.pid_tuning.initialize = function (callback) {
         $('input[id="gyroNotch2Enabled"]').prop('checked', FILTER_CONFIG.gyro_notch2_hz != 0).change();
         $('input[id="dtermNotchEnabled"]').prop('checked', FILTER_CONFIG.dterm_notch_hz != 0).change();
         $('input[id="gyroLowpassEnabled"]').prop('checked', FILTER_CONFIG.gyro_lowpass_hz != 0).change();
+        $('input[id="gyroDynLowpassEnabled"]').prop('checked', FILTER_CONFIG.gyro_dyn_lpf_min != 0).change();
         $('input[id="gyroLowpass2Enabled"]').prop('checked', FILTER_CONFIG.gyro_lowpass2_hz != 0).change();
         $('input[id="dtermLowpassEnabled"]').prop('checked', FILTER_CONFIG.dterm_lowpass_hz != 0).change();
         $('input[id="dtermLowpass2Enabled"]').prop('checked', FILTER_CONFIG.dterm_lowpass2_hz != 0).change();
@@ -535,6 +549,8 @@ TABS.pid_tuning.initialize = function (callback) {
         if (semver.gte(CONFIG.apiVersion, "1.41.0")) {
             RC_tuning.throttleLimitType = $('select[id="throttleLimitType"]').val();
             RC_tuning.throttleLimitPercent = parseInt($('.throttle_limit input[name="throttleLimitPercent"]').val());
+            FILTER_CONFIG.gyro_dyn_lpf_min = parseInt($('.pid_filter input[name="gyroDynLowpassMin"]').val());
+            FILTER_CONFIG.gyro_dyn_lpf_max = parseInt($('.pid_filter input[name="gyroDynLowpassMax"]').val());
         }
 
     }

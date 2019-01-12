@@ -910,6 +910,10 @@ MspHelper.prototype.process_data = function(dataHandler) {
                         FILTER_CONFIG.gyro_lowpass2_type = data.readU8();
                         FILTER_CONFIG.dterm_lowpass2_hz = data.readU16();
                     }
+                    if (semver.gte(CONFIG.apiVersion, "1.41.0")) {
+                        FILTER_CONFIG.gyro_dyn_lpf_min = data.readU16();
+                        FILTER_CONFIG.gyro_dyn_lpf_max = data.readU16();
+                    }
                 }
                 break;
             case MSPCodes.MSP_SET_PID_ADVANCED:
@@ -1618,6 +1622,10 @@ MspHelper.prototype.crunch = function(code) {
                           .push8(FILTER_CONFIG.gyro_lowpass_type)
                           .push8(FILTER_CONFIG.gyro_lowpass2_type)
                           .push16(FILTER_CONFIG.dterm_lowpass2_hz);
+                }
+                if (semver.gte(CONFIG.apiVersion, "1.41.0")) {
+                    buffer.push16(FILTER_CONFIG.gyro_dyn_lpf_min)
+                          .push16(FILTER_CONFIG.gyro_dyn_lpf_max)
                 }
             }
             break;

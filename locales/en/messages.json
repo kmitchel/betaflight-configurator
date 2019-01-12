@@ -2839,6 +2839,17 @@
     "pidTuningGyroLowpassType": {
         "message": "Gyro Lowpass 1 Filter Type"
     },
+
+    "pidTuningGyroDynLowpassMin": {
+        "message": "Gyro Dynamic Lowpass Min"
+    },
+    "pidTuningGyroDynLowpassMax": {
+        "message": "Gyro Dynamic Lowpass Max"
+    },
+
+
+
+
     "pidTuningGyroLowpass2Frequency": {
         "message": "Gyro Lowpass 2 Cutoff Frequency [Hz]"
     },

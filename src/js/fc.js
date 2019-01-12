@@ -341,6 +341,8 @@ var FC = {
             gyro_32khz_hardware_lpf:    0,
             gyro_lowpass_hz:            0,
             gyro_lowpass_type:          0,
+            gyro_dyn_lpf_min:           0,
+            gyro_dyn_lpf_max:           0,
             gyro_lowpass2_hz:           0,
             gyro_lowpass2_type:         0,
             gyro_notch_hz:              0,
@@ -441,6 +443,8 @@ var FC = {
         DEFAULT = {
             gyro_lowpass_hz:                100,
             gyro_lowpass_type:                0,
+            gyro_dyn_lpf_min:               150,
+            gyro_dyn_lpf_max:               450,
             gyro_lowpass2_hz:               300,
             gyro_lowpass2_type:               0,
             gyro_notch_cutoff:              300,
