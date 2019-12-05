@@ -3402,6 +3402,9 @@
     "pidTuningDynamicNotchFilterDisabledWarning": {
         "message": "<strong>Notice:</strong> The dynamic notch filter is disabled. In order to configure and use it, please enable the 'DYNAMIC_FILTER' feature in the '$t(configurationFeatures.message)' section of the '$t(tabConfiguration.message)' tab."
     },
+    "pidTuningDynamicNotchFilterRPMWarning": {
+        "message": "<strong>Notice:</strong> The dynamic notch filter is not configured to the recommended settings for use with the RPM filter."
+    },
     "pidTuningDynamicNotchRange": {
         "message": "Dynamic Notch Filter Range"
     },

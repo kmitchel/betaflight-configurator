@@ -595,6 +595,14 @@ TABS.pid_tuning.initialize = function (callback) {
             adjustNotchCutoff("dTermNotchFrequency", "dTermNotchCutoff");
         }).change();
 
+        $('input[name="dynamicNotchWidthPercent"]').change(function() {
+            self.updateFilterWarning();
+        }).change();
+
+        $('input[name="dynamicNotchQ"]').change(function() {
+            self.updateFilterWarning();
+        }).change();
+
         // Initial state of the filters: enabled or disabled
         $('input[id="gyroNotch1Enabled"]').prop('checked', FILTER_CONFIG.gyro_notch_hz != 0).change();
         $('input[id="gyroNotch2Enabled"]').prop('checked', FILTER_CONFIG.gyro_notch2_hz != 0).change();
@@ -2112,6 +2120,11 @@ TABS.pid_tuning.updateFilterWarning = function() {
     var dtermLowpass1Enabled = $('input[id="dtermLowpassEnabled"]').is(':checked');
     var warning_e = $('#pid-tuning .filterWarning');
     var warningDynamicNotch_e = $('#pid-tuning .dynamicNotchWarning');
+    var warningDynamicNotchRPM_e = $('#pid-tuning .dynamicNotchRPMWarning');
+    var rpmEnabled = $('.pid_filter #rpmFilterEnabled').is(':checked');
+    var dynNotchWidth = parseInt($('.pid_filter input[name="dynamicNotchWidthPercent"]').val());
+    var dynNotchQ = parseInt($('.pid_filter input[name="dynamicNotchQ"]').val());
+
     if (!(gyroDynamicLowpassEnabled || gyroLowpass1Enabled) || !(dtermDynamicLowpassEnabled || dtermLowpass1Enabled)) {
         warning_e.show();
     } else {
@@ -2120,6 +2133,13 @@ TABS.pid_tuning.updateFilterWarning = function() {
     if (semver.gte(CONFIG.apiVersion, "1.42.0")) {
         if (FEATURE_CONFIG.features.isEnabled('DYNAMIC_FILTER')) {
             warningDynamicNotch_e.hide();
+
+            if (rpmEnabled && (dynNotchWidth > 0 || dynNotchQ < 250)) {
+                warningDynamicNotchRPM_e.show();
+            } else {
+                warningDynamicNotchRPM_e.hide();
+            }
+
         } else {
             warningDynamicNotch_e.show();
         }
